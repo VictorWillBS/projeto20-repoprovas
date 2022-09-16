@@ -1,0 +1,77 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Users{
+  id Int @id @default(autoincrement())
+  email String @db.Text @unique
+  password String @db.Text
+  @@map("users")
+}
+
+
+model Categories{
+  id Int @id @default(autoincrement())
+  name String @db.Text @unique
+  test Test[]
+  @@map("categories")
+}
+
+
+model Teachers{
+  id Int @id @default(autoincrement())
+  name String @db.Text @unique
+  teachersDisciplines TeachersDisciplines[]
+  @@map("teachers")
+}
+
+
+model Terms{
+  id Int @id @default(autoincrement())
+  numbers String @db.Text @unique
+  discipline Disciplines[]
+  @@map("terms")
+}
+
+
+model Disciplines{
+  id Int @id @default(autoincrement())
+  name String @db.Text @unique
+  term Terms @relation(fields: [termId], references: [id])
+  termId Int
+  teachersDisciplines TeachersDisciplines[]
+  @@map("disciplines")
+}
+
+
+model TeachersDisciplines{
+  id Int @id @default(autoincrement())
+  name String @db.Text @unique
+  discipline Disciplines @relation(fields: [disciplineId], references: [id])
+  disciplineId Int
+  teachers Teachers @relation(fields: [teachersId], references: [id])
+  teachersId Int
+  test Test[]
+  @@map("teachersDisciplines")
+}
+
+
+
+model Test{
+  id Int @id @default(autoincrement())
+  name String @db.Text @unique
+  pdfUrl String @db.Text @unique
+  category Categories @relation(fields: [categoryId], references: [id])
+  categoryId Int
+  teachersDisciplines TeachersDisciplines @relation(fields: [teachersDisciplinesId], references: [id])
+  teachersDisciplinesId Int
+  @@map("test")
+}
