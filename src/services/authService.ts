@@ -11,7 +11,8 @@ export async function insertUser(userdata : userData) {
     throw{code:'Conflict', message:'User already exist.'}
   }
   const newPassord = criptFunctions.encriptByHash(userdata.password)
-  await authRepository.createUser(userdata,newPassord)
+  const user = await authRepository.createUser(userdata,newPassord)
+  return user
 }
 
 async function  getUserByEmail(email:string) {

@@ -1,8 +1,8 @@
-import app from "../src/app";
+import app from "../../src/app";
 import supertest from 'supertest'
-import * as userFactory from './factory/userFactory'
-import prisma from '../src/database/database'
-
+import * as userFactory from '../factory/userFactory'
+import * as testFactory from '../factory/testFactory'
+import prisma from '../../src/database/database'
 beforeEach(async()=>{
 await prisma.$executeRaw`TRUNCATE TABLE "users"`
 })
@@ -11,6 +11,7 @@ describe('Test my App POST /signup',  ()=>{
   it('Test Create User Expect 201',async()=>{
     const userData = userFactory.createUserAllowed()
     const result = await supertest(app).post('/signup').send(userData)
+    console.log(userData)
     expect(result.status).toBe(201)
   })
 
@@ -23,7 +24,7 @@ describe('Test my App POST /signup',  ()=>{
 
 describe('Test my App POST /signin',  ()=>{
   it('Test login User Expect 201',async()=>{
-    const userData = userFactory.createUserAllowed()
+    const userData =await userFactory.createUserAllowed()
     await supertest(app).post('/signup').send(userData)
     const result = await supertest(app).post('/signin').send(userData)
     expect(result.status).toBe(200)
@@ -37,7 +38,6 @@ describe('Test my App POST /signin',  ()=>{
     expect(result.status).toBe(401)
   })
 })
-
 afterAll(()=>{
   prisma.$disconnect
 })

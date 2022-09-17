@@ -3,8 +3,8 @@ import { userData } from "../types/authTypes";
 import * as authService from '../services/authService'
 export async function signup(req:Request,res:Response){
   const body : userData = req.body;
-  await authService.insertUser(body);
-  res.status(201).send('User Created.');
+  const user = await authService.insertUser(body);
+  res.status(201).send(user);
 }
 
 export async function signin(req:Request,res:Response) {

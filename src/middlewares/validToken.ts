@@ -7,7 +7,7 @@ export default function verifyToken(req:Request,res:Response, next:NextFunction)
 
 
   const token:string|any = req.headers.authorization;
-  if(!token.startsWith("Bearer")){
+  if(!token||!token.startsWith("Bearer")){
     console.log( 'cai aw')
     return res.status(401).send('Invalid Token.')
   }

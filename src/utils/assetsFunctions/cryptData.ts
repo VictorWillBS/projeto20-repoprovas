@@ -6,7 +6,6 @@ export function encriptByHash(password:string){
   return newPassword
 }
 export function comparePassword(password:string|any, encryptedPassword:string){
-  console.log( password)
   const isSame = bcrypt.compareSync(password,encryptedPassword);
   return isSame
 }

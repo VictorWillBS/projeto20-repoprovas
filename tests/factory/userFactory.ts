@@ -1,17 +1,27 @@
-import * as fakerData from '../fakerData/fakerUserData'
+import { faker } from "@faker-js/faker";
 export function createUserAllowed (){
-  const email:string = fakerData.fakeEmail()
-  const password : string = fakerData.fakePassword(15)
+  const email:string = fakeEmail();
+  const password : string = fakePassword(15);
   return {
     email,
     password
   }
 }
 export function createUseNotAllowed (){
-  const email:string = fakerData.fakePassword(10)
-  const password : string = fakerData.fakePassword(5)
+  const email:string = fakePassword(10);
+  const password : string =fakePassword(5);
   return {
     email,
     password
   }
+}
+
+ function fakeEmail(){
+  const email:string = faker.internet.email();
+  return email
+}
+
+ function fakePassword(wordLength:number){
+  const password:string = faker.internet.password(wordLength);
+  return password
 }
