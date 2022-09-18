@@ -20,6 +20,26 @@ export async function createTest(testData:ICreateTest, userId:number) {
   return insertedTest
 }
 
+export async function getTestOrderByDisciplines() {
+  const tests =  await testRepository.getTestOrderByDiscipline();
+  if(!tests.length){
+    throw{code:'Not Found', message:'Test Not Founded.'}
+   }
+
+  return tests
+
+}
+
+export async function getTestOrderByTeacher() {
+  const tests =  await testRepository.getTestOrderByTeacher();
+ if(!tests.length){
+  throw{code:'Not Found', message:'Test Not Founded.'}
+ }
+
+  return tests
+
+}
+
 async function verifyTeacherExist(teacherName:string) : Promise<Teachers> {
   console.log(teacherName)
   const teacher = await testRepository.getTeacherByName(teacherName)
