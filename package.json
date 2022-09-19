@@ -9,6 +9,9 @@
     "start": "node dist/src/server.js",
     "dev": "nodemon src/server.ts"
   },
+  "prisma":{
+    "seed":"ts-node prisma/seed.ts"
+  },
   "keywords": [],
   "author": "",
   "license": "ISC",
