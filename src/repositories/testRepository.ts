@@ -35,44 +35,23 @@ export async function getTestByPdfUrl(pdfUrl: string, teacherDisciplinesId: numb
 }
 
 export async function getTestOrderByDiscipline() {
-  const tests: any = await prisma.terms.findMany(
-    {
-      distinct: ["number"], select: {
-        number: true,
-        discipline:
-        {
-          select: {
-            name: true,
-            teachersDisciplines: {
-              select: {
-                test: {
-                  distinct: ['categoryId'],
-                  select: {
-                    category: {
-                      select: {
-                        id: true,
-                        name: true,
-                      }
-                    },
-                    name: true,
-                    pdfUrl: true,
-                    teachersDisciplines: {
-                      select: {
-                        teachers: {
-                          select: {
-                            name: true
-                          }
-                        }
-                      }
-                    }
-                  }
+  const tests: any = await prisma.terms.findMany({
+    include: {
+      discipline: {
+        include: {
+          teachersDisciplines: {
+            include: {
+              test: {
+                include: {
+                  category: true
                 }
               }
             }
-          },
+          }
         }
-      }
-    })
+      },
+    }
+  })
   return tests
 }
 
@@ -89,15 +68,15 @@ export async function getTestOrderByTeacher() {
                   name: true,
                 }
               },
-              name:true,
-              pdfUrl:true
+              name: true,
+              pdfUrl: true
             }
           }
         }
       }
     }
   })
- 
+
   return tests
 }
 
@@ -110,3 +89,41 @@ export async function insertTest(testData: InsertTest) {
   }
   return true
 }
+
+// {
+//   distinct: ["number"], select: {
+//     number: true,
+//     discipline:
+//     {
+//       select: {
+//         name: true,
+//         teachersDisciplines: {
+//           select: {
+//             test: {
+//               distinct: ['categoryId'],
+//               select: {
+//                 category: {
+//                   select: {
+//                     id: true,
+//                     name: true,
+//                   }
+//                 },
+//                 name: true,
+//                 pdfUrl: true,
+//                 teachersDisciplines: {
+//                   select: {
+//                     teachers: {
+//                       select: {
+//                         name: true
+//                       }
+//                     }
+//                   }
+//                 }
+//               }
+//             }
+//           }
+//         }
+//       },
+//     }
+//   }
+// }

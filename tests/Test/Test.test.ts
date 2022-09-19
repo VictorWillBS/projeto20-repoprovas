@@ -7,10 +7,10 @@ import tokenFactory from "../factory/tokenFactory";
 
 beforeEach(async()=>{
   await prisma.$executeRaw`TRUNCATE  TABLE "users"`
-})
+});
 afterAll(()=>{
   prisma.$disconnect
-})
+});
 
 
 describe('Test testRoute POST /test/create ',()=>{
@@ -41,7 +41,7 @@ describe('Test testRoute POST /test/create ',()=>{
     const result = await supertest(app).post('/test/create').send(testData);
     expect(result.status).toBe(401);
   })
-})
+});
 
 describe('Test testRoute Get /tests/teacher',()=>{
   it('Send Token. Expect 200',async()=>{
@@ -54,8 +54,16 @@ describe('Test testRoute Get /tests/teacher',()=>{
     expect(result.body).toBeInstanceOf(Object)
 
   });
-})
-
+  it('No Send Token. Expect 401',async()=>{
+    const userData = userFactory.createUserAllowed();
+    const token = await tokenFactory(userData);
+    const testData = testFactory.testAllowed();
+    await supertest(app).post('/test/create').send(testData).set('Authorization',`Bearer ${token}`);
+    const result = await supertest(app).get('/tests/teachers').send();
+    expect(result.status).toBe(401);
+  })
+});
+  
 describe('Test testRoute Get /tests/discipline',()=>{
   it('Send Token. Expect 200',async()=>{
     const userData = userFactory.createUserAllowed();
@@ -74,4 +82,4 @@ describe('Test testRoute Get /tests/discipline',()=>{
     const result = await supertest(app).get('/tests/discipline').send();
     expect(result.status).toBe(401);
   });
-})
+});
