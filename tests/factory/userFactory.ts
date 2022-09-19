@@ -17,7 +17,7 @@ export function createUseNotAllowed (){
 }
 
  function fakeEmail(){
-  const email:string = faker.internet.email();
+  const email:string = 'abc@abc.com';
   return email
 }
 

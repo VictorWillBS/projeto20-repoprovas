@@ -66,11 +66,12 @@ model TeachersDisciplines{
 
 model Test{
   id Int @id @default(autoincrement())
-  name String @db.Text @unique
-  pdfUrl String @db.Text @unique
+  name String @db.Text 
+  pdfUrl String @db.Text 
   category Categories @relation(fields: [categoryId], references: [id])
   categoryId Int
   teachersDisciplines TeachersDisciplines @relation(fields: [teacherDisciplinesId], references: [id])
   teacherDisciplinesId Int
+  @@unique([name,pdfUrl,teacherDisciplinesId])
   @@map("test")
 }
