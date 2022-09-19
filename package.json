@@ -6,7 +6,7 @@
   "scripts": {
     "test": "dotenv -e .env.test prisma migrate dev && dotenv -e .env.test jest --no-cache",
     "build": "tsc && npx prisma migrate deploy",
-    "start": "node dist/server.js",
+    "start": "node dist/src/server.js",
     "dev": "nodemon src/server.ts"
   },
   "keywords": [],
