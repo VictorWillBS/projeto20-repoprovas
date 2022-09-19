@@ -43,7 +43,10 @@ export async function getTestOrderByDiscipline() {
             include: {
               test: {
                 include: {
-                  category: true
+                  category: true,
+                  teachersDisciplines:{
+                    include:{teachers:true}
+                  }
                 }
               }
             }
@@ -89,41 +92,3 @@ export async function insertTest(testData: InsertTest) {
   }
   return true
 }
-
-// {
-//   distinct: ["number"], select: {
-//     number: true,
-//     discipline:
-//     {
-//       select: {
-//         name: true,
-//         teachersDisciplines: {
-//           select: {
-//             test: {
-//               distinct: ['categoryId'],
-//               select: {
-//                 category: {
-//                   select: {
-//                     id: true,
-//                     name: true,
-//                   }
-//                 },
-//                 name: true,
-//                 pdfUrl: true,
-//                 teachersDisciplines: {
-//                   select: {
-//                     teachers: {
-//                       select: {
-//                         name: true
-//                       }
-//                     }
-//                   }
-//                 }
-//               }
-//             }
-//           }
-//         }
-//       },
-//     }
-//   }
-// }
